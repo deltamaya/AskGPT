@@ -1,5 +1,7 @@
 // @dart=2.9
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
@@ -158,15 +160,15 @@ class _MyHomePageState extends State<MyHomePage> {
   void _newChat() async {
     String question=myController.text;
     myController.text='';
-    String ret=await sendAndReceiveText("${question}");
+    String resp=await sendAndReceiveText("${question}");
     final directory =await getApplicationDocumentsDirectory();
     final chatFile=File('${directory.path}/chat_history.txt');
     //ret=ret.indexOf("message");
     setState(() {
       chat_history.removeAt(chat_history.length-1);
-      chat_history.add(ret);
+      chat_history.add(jsonDecode(resp)['error']['message']);
     });
-    print(chat_history);
+
     for(int i=0;i<chat_history.length;i++){
       chatFile.writeAsString(chat_history[i],mode: FileMode.write);
     }
