@@ -105,9 +105,11 @@ class _IndexState extends State<IndexPage> {
     AppBar(
       title: Text("Ask GPT"),
       actions: [
-        IconButton(onPressed: ()  {
+        IconButton(
+            onPressed: () {
               //TODO: clean chat history
-        }, icon: Icon(Icons.cleaning_services_sharp)),
+            },
+            icon: Icon(Icons.cleaning_services_sharp)),
       ],
     ),
     AppBar(
@@ -158,19 +160,19 @@ class _MyHomePageState extends State<MyHomePage> {
   final myController = TextEditingController();
 
   void _newChat() async {
-    String question=myController.text;
-    myController.text='';
-    String resp=await sendAndReceiveText("${question}");
-    final directory =await getApplicationDocumentsDirectory();
-    final chatFile=File('${directory.path}/chat_history.txt');
+    String question = myController.text;
+    myController.text = '';
+    String resp = await sendAndReceiveText("${question}");
+    final directory = await getApplicationDocumentsDirectory();
+    final chatFile = File('${directory.path}/chat_history.txt');
     //ret=ret.indexOf("message");
     setState(() {
-      chat_history.removeAt(chat_history.length-1);
+      chat_history.removeAt(chat_history.length - 1);
       chat_history.add(jsonDecode(resp)['error']['message']);
     });
 
-    for(int i=0;i<chat_history.length;i++){
-      chatFile.writeAsString(chat_history[i],mode: FileMode.write);
+    for (int i = 0; i < chat_history.length; i++) {
+      chatFile.writeAsString(chat_history[i], mode: FileMode.write);
     }
   }
 
@@ -225,7 +227,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     onPressed: () {
                       setState(() {
                         // chat_history.add(chatFile.readAsStringSync());
-                        chat_history.add(myController.text+'\n');
+                        chat_history.add(myController.text + '\n');
                         chat_history.add("正在思考中...\n");
                       });
 
@@ -241,8 +243,6 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-
-
 }
 
 class OpenAISettings extends StatefulWidget {
