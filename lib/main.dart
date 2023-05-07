@@ -168,7 +168,11 @@ class _MyHomePageState extends State<MyHomePage> {
     //ret=ret.indexOf("message");
     setState(() {
       chat_history.removeAt(chat_history.length - 1);
-      chat_history.add(jsonDecode(resp)['error']['message']);
+      final tmp=jsonDecode(resp);
+      String ret;
+      final key=tmp.keys.toList();
+      ret=tmp[key[0]]['message'];
+      chat_history.add(ret);
     });
 
     for (int i = 0; i < chat_history.length; i++) {
